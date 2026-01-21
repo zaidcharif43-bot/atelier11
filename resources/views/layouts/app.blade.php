@@ -1,19 +1,22 @@
 <!DOCTYPE html>
 <html lang="fr">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@yield('title', 'ClothesZC - Boutique de Mode')</title>
-    
+
     <!-- Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;500;600;700&family=Raleway:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
+
     <!-- Bootstrap CSS pour la pagination -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    
+
     <style>
         /* ===== VARIABLES ===== */
         :root {
@@ -27,8 +30,8 @@
             --gray-light: #e9ecef;
             --white: #ffffff;
             --gold: #d4af37;
-            --shadow: 0 10px 40px rgba(0,0,0,0.1);
-            --shadow-hover: 0 20px 60px rgba(0,0,0,0.15);
+            --shadow: 0 10px 40px rgba(0, 0, 0, 0.1);
+            --shadow-hover: 0 20px 60px rgba(0, 0, 0, 0.15);
             --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
@@ -177,7 +180,7 @@
             align-items: center;
             justify-content: center;
             color: var(--white);
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             border: none;
             cursor: pointer;
             transition: var(--transition);
@@ -278,7 +281,7 @@
         }
 
         .footer-brand p {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             margin: 20px 0;
             font-size: 0.95rem;
             line-height: 1.8;
@@ -293,7 +296,7 @@
             width: 44px;
             height: 44px;
             border-radius: 50%;
-            background: rgba(255,255,255,0.1);
+            background: rgba(255, 255, 255, 0.1);
             display: flex;
             align-items: center;
             justify-content: center;
@@ -318,7 +321,7 @@
         }
 
         .footer-links a {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             font-size: 0.95rem;
             transition: var(--transition);
         }
@@ -332,7 +335,7 @@
             display: flex;
             align-items: center;
             gap: 12px;
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
             margin-bottom: 15px;
             font-size: 0.95rem;
         }
@@ -343,10 +346,10 @@
         }
 
         .footer-bottom {
-            border-top: 1px solid rgba(255,255,255,0.1);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
             padding-top: 30px;
             text-align: center;
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
             font-size: 0.9rem;
         }
 
@@ -390,7 +393,7 @@
         .product-overlay {
             position: absolute;
             inset: 0;
-            background: linear-gradient(to top, rgba(0,0,0,0.5), transparent);
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.5), transparent);
             opacity: 0;
             transition: var(--transition);
         }
@@ -628,7 +631,7 @@
         }
 
         .breadcrumb a {
-            color: rgba(255,255,255,0.7);
+            color: rgba(255, 255, 255, 0.7);
         }
 
         .breadcrumb a:hover {
@@ -636,11 +639,12 @@
         }
 
         .breadcrumb span {
-            color: rgba(255,255,255,0.5);
+            color: rgba(255, 255, 255, 0.5);
         }
     </style>
     @yield('styles')
 </head>
+
 <body>
     <!-- Header -->
     <header class="header" id="header">
@@ -651,10 +655,16 @@
                 </a>
 
                 <nav class="nav">
-                    <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
-                    <a href="{{ route('produits.index') }}" class="nav-link {{ request()->routeIs('produits.*') ? 'active' : '' }}">Boutique</a>
-                    <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">À Propos</a>
-                    <a href="{{ route('contact') }}" class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
+                    <a href="{{ route('home') }}"
+                        class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
+                    <a href="{{ route('produits.index') }}"
+                        class="nav-link {{ request()->routeIs('produits.*') ? 'active' : '' }}">Boutique</a>
+                    <a href="{{ route('produits.manage') }}"
+                        class="nav-link {{ request()->routeIs('produits.manage') ? 'active' : '' }}">Gérer</a>
+                    <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">À
+                        Propos</a>
+                    <a href="{{ route('contact') }}"
+                        class="nav-link {{ request()->routeIs('contact') ? 'active' : '' }}">Contact</a>
                 </nav>
 
                 <div class="header-actions">
@@ -684,7 +694,8 @@
                     <a href="{{ route('home') }}" class="logo">
                         <img src="{{ asset('logojpeg.jpeg') }}" alt="ClothesZC">
                     </a>
-                    <p>Votre destination mode pour des vêtements tendance et de qualité. Exprimez votre style avec ClothesZC.</p>
+                    <p>Votre destination mode pour des vêtements tendance et de qualité. Exprimez votre style avec
+                        ClothesZC.</p>
                     <div class="footer-social">
                         <a href="#"><i class="fab fa-facebook-f"></i></a>
                         <a href="#"><i class="fab fa-instagram"></i></a>
@@ -729,7 +740,7 @@
 
     <script>
         // Header scroll effect
-        window.addEventListener('scroll', function() {
+        window.addEventListener('scroll', function () {
             const header = document.getElementById('header');
             if (window.scrollY > 100) {
                 header.classList.add('scrolled');
@@ -741,4 +752,5 @@
 
     @yield('scripts')
 </body>
+
 </html>
