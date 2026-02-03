@@ -66,8 +66,13 @@ class Produit extends Model
             return $this->image;
         }
         
-        // Sinon, générer l'URL depuis le storage public
-        return asset('storage/' . $this->image);
+        // Si l'image commence par 'images/', c'est déjà le bon chemin
+        if (str_starts_with($this->image, 'images/')) {
+            return asset($this->image);
+        }
+        
+        // Sinon, ajouter le préfixe images/produits/
+        return asset('images/produits/' . $this->image);
     }
 
     /**
