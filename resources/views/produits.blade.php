@@ -78,7 +78,7 @@
                                     onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
                                     <td style="padding: 15px;">{{ $p->id }}</td>
                                     <td style="padding: 15px;">
-                                        <img src="{{ $p->image_url ?? $p->image }}" alt="{{ $p->name }}"
+                                        <img src="{{ $p->image_url }}" alt="{{ $p->name }}"
                                             style="width: 60px; height: 60px; object-fit: cover; border-radius: 10px;">
                                     </td>
                                     <td style="padding: 15px; font-weight: 600;">{{ $p->name }}</td>
@@ -147,7 +147,7 @@
                 @foreach($produits as $p)
                     <article class="product-card">
                         <div class="product-image">
-<img src="{{ asset('storage/' . $product->image) }}" alt="Produit" width="150">
+<img src="{{ $p->image_url }}" alt="{{ $p->name }}" width="150">
                             <div class="product-overlay"></div>
                             @if($p->new)
                                 <span class="product-badge badge-new">Nouveau</span>

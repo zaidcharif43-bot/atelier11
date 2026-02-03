@@ -15,6 +15,12 @@ return Application::configure(basePath: dirname(__DIR__))
         $middleware->api(prepend: [
             \Illuminate\Http\Middleware\HandleCors::class,
         ]);
+        
+        // Enregistrement des alias de middlewares pour la gestion des rôles
+        $middleware->alias([
+            'admin' => \App\Http\Middleware\IsAdmin::class,
+            'user' => \App\Http\Middleware\IsUser::class,
+        ]);
     })
     ->withExceptions(function (Exceptions $exceptions): void {
         //

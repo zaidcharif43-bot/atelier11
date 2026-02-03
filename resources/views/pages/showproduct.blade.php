@@ -30,7 +30,7 @@
                         <!-- Image -->
                         <div style="border-radius: 15px; overflow: hidden; background: #f8f9fa;">
                             @if($product->image)
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}"
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                                     style="width: 100%; height: 300px; object-fit: cover;">
                             @else
                                 <div

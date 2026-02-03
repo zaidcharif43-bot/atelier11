@@ -387,7 +387,7 @@
                         <label>Image actuelle</label>
                         @if($product->image)
                             <div class="current-image">
-                                <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                 <p>Image actuelle du produit</p>
                             </div>
                         @else

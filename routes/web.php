@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProduitController;
@@ -20,18 +21,20 @@ Route::post('/contact', [PageController::class, 'sendContact'])->name('contact.s
 Route::get('/produits', [ProductController::class, 'index'])->name('produits.index');
 
 // ========================================
-// Routes TP Atelier 8 - Ajout de Produit
+// Routes TP Atelier 8 - Ajout de Produit - SÉCURISÉES PAR MIDDLEWARE ADMIN
 // ========================================
-// IMPORTANT: Ces routes doivent être AVANT /produits/{category} pour éviter les conflits
-Route::get('/produits/cleanup', [RproductController::class, 'showCleanup'])->name('produits.cleanup.show');
-Route::post('/produits/cleanup', [RproductController::class, 'cleanup'])->name('produits.cleanup');
-Route::get('/produits/manage', [RproductController::class, 'manage'])->name('produits.manage');
-Route::get('/produits/create', [RproductController::class, 'create'])->name('produits.create');
-Route::post('/produits/store', [RproductController::class, 'store'])->name('produits.store');
-Route::get('/produits/{id}/show', [RproductController::class, 'show'])->name('produits.show.admin');
-Route::get('/produits/{id}/edit', [RproductController::class, 'edit'])->name('produits.edit');
-Route::put('/produits/{id}', [RproductController::class, 'update'])->name('produits.update');
-Route::delete('/produits/{id}', [RproductController::class, 'destroy'])->name('produits.delete');
+Route::middleware(['auth', 'admin'])->group(function () {
+    Route::get('/produits/cleanup', [RproductController::class, 'showCleanup'])->name('produits.cleanup.show');
+    Route::post('/produits/cleanup', [RproductController::class, 'cleanup'])->name('produits.cleanup');
+    Route::get('/produits/manage', [RproductController::class, 'manage'])->name('produits.manage');
+    Route::get('/produits/create', [RproductController::class, 'create'])->name('produits.create');
+    Route::post('/produits/store', [RproductController::class, 'store'])->name('produits.store');
+    Route::get('/produits/{id}/show', [RproductController::class, 'show'])->name('produits.show.admin');
+    Route::get('/produits/{id}/edit', [RproductController::class, 'edit'])->name('produits.edit');
+    Route::put('/produits/{id}', [RproductController::class, 'update'])->name('produits.update');
+    Route::delete('/produits/{id}', [RproductController::class, 'destroy'])->name('produits.delete');
+    Route::get('/espaceadmin', [ProduitController::class, 'espaceadmin'])->name('espaceadmin');
+});
 
 // Routes dynamiques (doivent être APRÈS les routes spécifiques)
 Route::get('/produits/{category}', [ProductController::class, 'category'])->name('produits.category');
@@ -50,3 +53,15 @@ Route::get('/react-app', function () {
     return view('react-app');
 })->name('react.app');
 
+// ========================================
+// Routes TP Atelier 11 - Espace Client (SÉCURISÉ PAR MIDDLEWARE USER)
+// ========================================
+Route::middleware(['auth', 'user'])->group(function () {
+    Route::get('/espaceclient', [ProduitController::class, 'espaceclient'])->name('espaceclient');
+});
+
+// Routes d'authentification Laravel UI
+Auth::routes();
+
+// Dashboard après connexion
+Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home')->middleware('auth');

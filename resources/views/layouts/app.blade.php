@@ -53,6 +53,7 @@
             color: var(--dark);
             background: var(--white);
             overflow-x: hidden;
+            padding-top: 90px; /* Espace pour le header fixe */
         }
 
         a {
@@ -83,8 +84,9 @@
             left: 0;
             right: 0;
             z-index: 1000;
-            background: transparent;
+            background: var(--primary); /* Fond par défaut */
             transition: var(--transition);
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
         }
 
         .header.scrolled {
@@ -659,8 +661,21 @@
                         class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">Accueil</a>
                     <a href="{{ route('produits.index') }}"
                         class="nav-link {{ request()->routeIs('produits.*') ? 'active' : '' }}">Boutique</a>
-                    <a href="{{ route('produits.manage') }}"
-                        class="nav-link {{ request()->routeIs('produits.manage') ? 'active' : '' }}">Gérer</a>
+                    
+                    @auth
+                        @if(Auth::user()->isAdmin())
+                            {{-- Menu ADMIN --}}
+                            <a href="{{ route('produits.manage') }}"
+                                class="nav-link {{ request()->routeIs('produits.manage') ? 'active' : '' }}">Gérer Produits</a>
+                            <a href="{{ route('espaceadmin') }}"
+                                class="nav-link {{ request()->routeIs('espaceadmin') ? 'active' : '' }}">Espace Admin</a>
+                        @elseif(Auth::user()->isUser())
+                            {{-- Menu USER --}}
+                            <a href="{{ route('espaceclient') }}"
+                                class="nav-link {{ request()->routeIs('espaceclient') ? 'active' : '' }}">Espace Client</a>
+                        @endif
+                    @endauth
+                    
                     <a href="{{ route('about') }}" class="nav-link {{ request()->routeIs('about') ? 'active' : '' }}">À
                         Propos</a>
                     <a href="{{ route('contact') }}"
@@ -670,6 +685,36 @@
                 <div class="header-actions">
                     <button class="header-btn"><i class="fas fa-search"></i></button>
                     <button class="header-btn"><i class="fas fa-shopping-bag"></i></button>
+                    
+                    @guest
+                        <a href="{{ route('login') }}" class="header-btn" title="Connexion">
+                            <i class="fas fa-sign-in-alt"></i>
+                        </a>
+                        <a href="{{ route('register') }}" class="header-btn" title="Inscription">
+                            <i class="fas fa-user-plus"></i>
+                        </a>
+                    @else
+                        <div style="position: relative; display: inline-block;">
+                            <button class="header-btn" id="userMenuBtn" title="{{ Auth::user()->name }}">
+                                <i class="fas fa-user"></i>
+                            </button>
+                            <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); min-width: 200px; z-index: 1000;">
+                                <div style="padding: 15px; border-bottom: 1px solid #eee;">
+                                    <strong>{{ Auth::user()->name }}</strong>
+                                    <br>
+                                    <small style="color: #999;">{{ Auth::user()->role }}</small>
+                                </div>
+                                <a href="{{ route('logout') }}" 
+                                   onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
+                                   style="display: block; padding: 12px 15px; color: #e94560; transition: all 0.3s;">
+                                    <i class="fas fa-sign-out-alt"></i> Déconnexion
+                                </a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </div>
+                        </div>
+                    @endguest
                 </div>
 
                 <div class="mobile-toggle">
@@ -748,6 +793,26 @@
                 header.classList.remove('scrolled');
             }
         });
+
+        // Menu déroulant utilisateur
+        const userMenuBtn = document.getElementById('userMenuBtn');
+        const userDropdown = document.getElementById('userDropdown');
+        
+        if (userMenuBtn && userDropdown) {
+            userMenuBtn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                userDropdown.style.display = userDropdown.style.display === 'none' ? 'block' : 'none';
+            });
+
+            // Fermer le menu en cliquant ailleurs
+            document.addEventListener('click', function() {
+                userDropdown.style.display = 'none';
+            });
+
+            userDropdown.addEventListener('click', function(e) {
+                e.stopPropagation();
+            });
+        }
     </script>
 
     <!-- Bootstrap JS Bundle (includes Popper) -->

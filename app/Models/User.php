@@ -12,6 +12,10 @@ class User extends Authenticatable
     /** @use HasFactory<\Database\Factories\UserFactory> */
     use HasFactory, Notifiable;
 
+    // Déclaration des rôles
+    const USER_ROLE = 'USER';
+    const ADMIN_ROLE = 'ADMIN';
+
     /**
      * The attributes that are mass assignable.
      *
@@ -21,6 +25,7 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'role',
     ];
 
     /**
@@ -44,5 +49,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    /**
+     * Vérifier si l'utilisateur est un administrateur
+     *
+     * @return bool
+     */
+    public function isAdmin(): bool
+    {
+        return $this->role === self::ADMIN_ROLE;
+    }
+
+    /**
+     * Vérifier si l'utilisateur est un utilisateur standard
+     *
+     * @return bool
+     */
+    public function isUser(): bool
+    {
+        return $this->role === self::USER_ROLE;
     }
 }

@@ -1,22 +1,41 @@
 {
-    "$schema": "https://www.schemastore.org/package.json",
-    "private": true,
-    "type": "module",
-    "scripts": {
-        "build": "vite build",
-        "dev": "vite"
-    },
-    "devDependencies": {
-        "@popperjs/core": "^2.11.6",
-        "@tailwindcss/vite": "^4.0.0",
-        "@vitejs/plugin-vue": "^4.5.0",
-        "axios": "^1.11.0",
-        "bootstrap": "^5.2.3",
-        "concurrently": "^9.0.1",
-        "laravel-vite-plugin": "^2.0.0",
-        "sass": "^1.56.1",
-        "tailwindcss": "^4.0.0",
-        "vite": "^7.0.7",
-        "vue": "^3.2.37"
+    "version": 2,
+    "builds": [
+        {
+            "src": "api/lambda.php",
+            "use": "vercel-php@0.6.0"
+        },
+        {
+            "src": "public/**",
+            "use": "@vercel/static"
+        }
+    ],
+    "routes": [
+        {
+            "src": "/(css|js|images|fonts|storage)/(.*)",
+            "dest": "public/$1/$2"
+        },
+        {
+            "src": "/build/(.*)",
+            "dest": "public/build/$1"
+        },
+        {
+            "src": "/(.*)",
+            "dest": "api/lambda.php"
+        }
+    ],
+    "env": {
+        "APP_ENV": "production",
+        "APP_DEBUG": "false",
+        "APP_URL": "https://yourdomain.vercel.app",
+        "APP_CONFIG_CACHE": "/tmp/config.php",
+        "APP_EVENTS_CACHE": "/tmp/events.php",
+        "APP_PACKAGES_CACHE": "/tmp/packages.php",
+        "APP_ROUTES_CACHE": "/tmp/routes.php",
+        "APP_SERVICES_CACHE": "/tmp/services.php",
+        "VIEW_COMPILED_PATH": "/tmp",
+        "CACHE_DRIVER": "array",
+        "LOG_CHANNEL": "stderr",
+        "SESSION_DRIVER": "cookie"
     }
 }

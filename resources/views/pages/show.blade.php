@@ -23,7 +23,7 @@
             <!-- Product Images -->
             <div class="product-gallery">
                 <div class="main-image">
-                    <img src="{{ $product->image }}" alt="{{ $product->name }}" id="mainImage">
+                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}" id="mainImage">
                     @if($product->new)
                     <span class="product-badge badge-new">Nouveau</span>
                     @elseif($product->sale && $product->old_price)
@@ -32,13 +32,13 @@
                 </div>
                 <div class="thumbnail-images">
                     <div class="thumbnail active" onclick="changeImage(this)">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                     </div>
                     <div class="thumbnail" onclick="changeImage(this)">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                     </div>
                     <div class="thumbnail" onclick="changeImage(this)">
-                        <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                        <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                     </div>
                 </div>
             </div>
@@ -145,7 +145,7 @@
             @foreach($relatedProducts as $related)
             <article class="product-card">
                 <div class="product-image">
-                    <img src="{{ $related->image }}" alt="{{ $related->name }}">
+                    <img src="{{ $related->image_url }}" alt="{{ $related->name }}">
                     <div class="product-overlay"></div>
                     @if($related->new)
                     <span class="product-badge badge-new">Nouveau</span>

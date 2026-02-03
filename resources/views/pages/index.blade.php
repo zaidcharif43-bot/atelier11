@@ -111,7 +111,7 @@
                         @forelse($products as $product)
                             <article class="product-card">
                                 <div class="product-image">
-                                    <img src="{{ $product->image }}" alt="{{ $product->name }}">
+                                    <img src="{{ $product->image_url }}" alt="{{ $product->name }}">
                                     <div class="product-overlay"></div>
                                     @if($product->new)
                                         <span class="product-badge badge-new">Nouveau</span>

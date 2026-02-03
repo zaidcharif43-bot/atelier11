@@ -44,4 +44,28 @@ class ProduitController extends Controller
             'produit' => $produit
         ]);
     }
+
+    /**
+     * Espace client - Affiche les produits en solde
+     */
+    public function espaceclient()
+    {
+        // Récupérer tous les produits en solde
+        $produitsEnSolde = Produit::where('sale', true)->paginate(6);
+        
+        return view('espaceclient', [
+            'produits' => $produitsEnSolde
+        ]);
+    }
+
+    /**
+     * Espace admin - Gestion des produits
+     */
+    public function espaceadmin()
+    {
+        $produits = Produit::orderBy('created_at', 'desc')->paginate(10);
+        return view('espaceadmin', [
+            'produits' => $produits
+        ]);
+    }
 }

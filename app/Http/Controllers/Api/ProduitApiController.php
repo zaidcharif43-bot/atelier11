@@ -117,15 +117,10 @@ class ProduitApiController extends Controller
             ], 201);
 
         } catch (\Exception $e) {
-            \Log::error('Erreur ajout produit API: ' . $e->getMessage());
-            \Log::error('Stack trace: ' . $e->getTraceAsString());
-            
             return response()->json([
                 'success' => false,
                 'message' => 'Erreur lors de l\'ajout du produit',
-                'error' => $e->getMessage(),
-                'line' => $e->getLine(),
-                'file' => basename($e->getFile())
+                'error' => $e->getMessage()
             ], 500);
         }
     }

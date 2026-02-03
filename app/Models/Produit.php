@@ -51,21 +51,14 @@ class Produit extends Model
     ];
 
     /**
-     * Les attributs à ajouter aux représentations du modèle
+     * Obtenir l'URL complète de l'image (Accesseur Laravel)
      *
-     * @var array
-     */
-    protected $appends = ['image_url'];
-
-    /**
-     * Accesseur pour obtenir l'URL complète de l'image
-     *
-     * @return string|null
+     * @return string
      */
     public function getImageUrlAttribute()
     {
         if (!$this->image) {
-            return null;
+            return asset('images/placeholder.png');
         }
         
         // Si l'image est une URL complète (commence par http), la retourner telle quelle

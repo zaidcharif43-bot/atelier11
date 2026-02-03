@@ -76,7 +76,7 @@
                                         <td style="padding: 15px;">{{ $product->id }}</td>
                                         <td style="padding: 15px;">
                                             @if($product->image)
-                                                <img src="{{ $product->image }}" alt="{{ $product->name }}"
+                                                <img src="{{ $product->image_url }}" alt="{{ $product->name }}"
                                                     style="width: 60px; height: 60px; object-fit: cover; border-radius: 10px;">
                                             @else
                                                 <div
