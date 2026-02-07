@@ -66,13 +66,24 @@ class Produit extends Model
             return $this->image;
         }
         
-        // Si l'image commence par 'images/', c'est déjà le bon chemin
+        // Si l'image commence par 'storage/', c'est un chemin de storage Laravel
+        if (str_starts_with($this->image, 'storage/')) {
+            return asset($this->image);
+        }
+        
+        // Si l'image est un chemin relatif du storage (ex: produits/image.jpg)
+        // C'est le format utilisé par Storage::disk('public')->store()
+        if (str_starts_with($this->image, 'produits/')) {
+            return asset('storage/' . $this->image);
+        }
+        
+        // Si l'image commence par 'images/', c'est un chemin public direct
         if (str_starts_with($this->image, 'images/')) {
             return asset($this->image);
         }
         
-        // Sinon, ajouter le préfixe images/produits/
-        return asset('images/produits/' . $this->image);
+        // Par défaut, considérer que c'est un nom de fichier dans storage/produits/
+        return asset('storage/produits/' . $this->image);
     }
 
     /**

@@ -112,18 +112,21 @@
 
                 <!-- Quantité et Panier -->
                 <div class="product-actions">
-                    <div class="quantity-selector">
-                        <button class="qty-btn minus"><i class="fas fa-minus"></i></button>
-                        <input type="number" value="1" min="1" max="{{ $product['stock'] }}" class="qty-input" id="quantity">
-                        <button class="qty-btn plus"><i class="fas fa-plus"></i></button>
-                    </div>
-                    <button class="btn-add-cart">
-                        <i class="fas fa-shopping-bag"></i>
-                        <span>Ajouter au panier</span>
-                    </button>
-                    <button class="btn-wishlist" title="Ajouter aux favoris">
-                        <i class="far fa-heart"></i>
-                    </button>
+                    <form action="{{ route('cart.add', $product['id']) }}" method="POST" style="display: flex; gap: 15px; align-items: center; width: 100%;">
+                        @csrf
+                        <div class="quantity-selector">
+                            <button type="button" class="qty-btn minus"><i class="fas fa-minus"></i></button>
+                            <input type="number" name="quantity" value="1" min="1" max="{{ $product['stock'] }}" class="qty-input" id="quantity">
+                            <button type="button" class="qty-btn plus"><i class="fas fa-plus"></i></button>
+                        </div>
+                        <button type="submit" class="btn-add-cart" style="flex: 1;">
+                            <i class="fas fa-shopping-cart"></i>
+                            <span>Ajouter au panier</span>
+                        </button>
+                        <button type="button" class="btn-wishlist" title="Ajouter aux favoris">
+                            <i class="far fa-heart"></i>
+                        </button>
+                    </form>
                 </div>
 
                 <!-- Stock Status -->
