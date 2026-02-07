@@ -47,6 +47,10 @@ Route::get('/produit/{id}', [ProductController::class, 'show'])->name('produits.
 // ========================================
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
 Route::get('/cart/debug', function() { return view('cart.debug'); })->name('cart.debug');
+Route::get('/debug-images', function() { 
+    $produits = \App\Models\Produit::all(); 
+    return view('debug-images', compact('produits')); 
+})->name('debug.images');
 Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
 Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
 Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
