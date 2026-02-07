@@ -161,15 +161,12 @@
                             </div>
 
                             <div class="product-quick-actions">
-                                <a href="{{ route('produits.show', $product['id']) }}" class="quick-action-btn" title="Aperçu rapide">
+                                <button class="quick-action-btn" title="Aperçu rapide">
                                     <i class="fas fa-eye"></i>
-                                </a>
-                                <form action="{{ route('cart.add', $product['id']) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" class="quick-action-btn" title="Ajouter au panier">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-                                </form>
+                                </button>
+                                <button class="quick-action-btn" title="Ajouter au panier">
+                                    <i class="fas fa-shopping-bag"></i>
+                                </button>
                                 <button class="quick-action-btn" title="Favoris">
                                     <i class="far fa-heart"></i>
                                 </button>

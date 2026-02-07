@@ -52,15 +52,8 @@
                             <span class="product-badge badge-sale">Promo</span>
                             @endif
                             <div class="product-actions">
-                                <a href="{{ route('produits.show', $product['id']) }}" title="Aperçu">
-                                    <i class="fas fa-eye"></i>
-                                </a>
-                                <form action="{{ route('cart.add', $product['id']) }}" method="POST" style="display: inline;">
-                                    @csrf
-                                    <button type="submit" title="Ajouter au panier">
-                                        <i class="fas fa-shopping-cart"></i>
-                                    </button>
-                                </form>
+                                <button title="Aperçu"><i class="fas fa-eye"></i></button>
+                                <button title="Panier"><i class="fas fa-shopping-bag"></i></button>
                                 <button title="Favoris"><i class="fas fa-heart"></i></button>
                             </div>
                         </div>
