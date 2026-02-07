@@ -22,10 +22,6 @@
             "dest": "public/build/$1"
         },
         {
-            "src": "/(.*\\.(jpeg|jpg|png|gif|svg|webp|ico))$",
-            "dest": "public/$1"
-        },
-        {
             "src": "/(.*)",
             "dest": "api/lambda.php"
         }
@@ -33,7 +29,7 @@
     "env": {
         "APP_ENV": "production",
         "APP_DEBUG": "false",
-        "APP_URL": "https://at10.vercel.app",
+        "APP_URL": "https://yourdomain.vercel.app",
         "APP_CONFIG_CACHE": "/tmp/config.php",
         "APP_EVENTS_CACHE": "/tmp/events.php",
         "APP_PACKAGES_CACHE": "/tmp/packages.php",
@@ -42,8 +38,6 @@
         "VIEW_COMPILED_PATH": "/tmp",
         "CACHE_DRIVER": "array",
         "LOG_CHANNEL": "stderr",
-        "SESSION_DRIVER": "cookie",
-        "SESSION_SECURE_COOKIE": "true",
-        "ASSET_URL": "https://at10.vercel.app"
+        "SESSION_DRIVER": "cookie"
     }
 }
