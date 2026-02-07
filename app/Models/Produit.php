@@ -59,11 +59,19 @@ class Produit extends Model
     public function getImageUrlAttribute()
     {
         if (!$this->image) {
-            return asset('images/placeholder.png');
+            return 'https://via.placeholder.com/800x1000/CCCCCC/666666?text=No+Image';
+        }
+        
+        // Si l'image contient unsplash.com, la remplacer par placeholder (Unsplash peut être bloqué)
+        if (str_contains($this->image, 'unsplash.com')) {
+            // Créer une image placeholder basée sur le nom du produit
+            $text = urlencode(substr($this->name, 0, 20));
+            $colors = ['FF6B6B', 'FFD93D', '6BCB77', '4D96FF', 'FFB6C1', '8B4513', 'F5F5DC', 'FFC0CB'];
+            $color = $colors[$this->id % count($colors)];
+            return "https://via.placeholder.com/800x1000/{$color}/FFFFFF?text={$text}";
         }
         
         // Si l'image est une URL complète (commence par http), la retourner telle quelle
-        // Fonctionne avec Unsplash, Cloudinary, etc.
         if (str_starts_with($this->image, 'http')) {
             return $this->image;
         }
