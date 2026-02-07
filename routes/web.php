@@ -6,6 +6,8 @@ use App\Http\Controllers\PageController;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProduitController;
 use App\Http\Controllers\RproductController;
+use App\Http\Controllers\CartController;
+use App\Http\Controllers\CheckoutController;
 
 // Page d'accueil
 Route::get('/', [PageController::class, 'home'])->name('home');
@@ -41,6 +43,26 @@ Route::get('/produits/{category}', [ProductController::class, 'category'])->name
 Route::get('/produit/{id}', [ProductController::class, 'show'])->name('produits.show');
 
 // ========================================
+// Routes TP Atelier 10 - Panier d'achat avec Session
+// ========================================
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index');
+Route::get('/cart/debug', function() { return view('cart.debug'); })->name('cart.debug');
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+Route::patch('/cart/update/{id}', [CartController::class, 'update'])->name('cart.update');
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove');
+Route::delete('/cart/clear', [CartController::class, 'clear'])->name('cart.clear');
+Route::get('/cart/count', [CartController::class, 'count'])->name('cart.count');
+
+// ========================================
+// Routes TP Atelier 10 - Paiement Stripe
+// ========================================
+Route::get('/checkout', [CheckoutController::class, 'index'])->name('checkout.index');
+Route::post('/checkout/create-session', [CheckoutController::class, 'createSession'])->name('checkout.create-session');
+Route::get('/checkout/success', [CheckoutController::class, 'success'])->name('checkout.success');
+Route::get('/checkout/cancel', [CheckoutController::class, 'cancel'])->name('checkout.cancel');
+Route::post('/stripe/webhook', [CheckoutController::class, 'webhook'])->name('stripe.webhook');
+
+// ========================================
 // Routes TP Atelier 7 - Filtrage par catégorie
 // ========================================
 Route::get('/categories', [ProduitController::class, 'index'])->name('categories.index');
@@ -61,7 +83,7 @@ Route::middleware(['auth', 'user'])->group(function () {
 });
 
 // ========================================
-// Routes Profil Utilisateur (SÉCURISÉES PAR AUTH)
+// Routes Profil Utilisateur (SÉCURISÉ - AUTH REQUIS)
 // ========================================
 Route::middleware(['auth'])->group(function () {
     Route::get('/profile', [App\Http\Controllers\ProfileController::class, 'show'])->name('profile.show');

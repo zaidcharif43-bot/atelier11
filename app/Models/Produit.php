@@ -52,7 +52,6 @@ class Produit extends Model
 
     /**
      * Obtenir l'URL complète de l'image (Accesseur Laravel)
-     * Compatible avec Vercel (système de fichiers read-only)
      *
      * @return string
      */
@@ -63,21 +62,19 @@ class Produit extends Model
         }
         
         // Si l'image est une URL complète (commence par http), la retourner telle quelle
-        // Fonctionne avec Unsplash, Cloudinary, etc.
         if (str_starts_with($this->image, 'http')) {
             return $this->image;
         }
         
-        // Si l'image commence par 'storage/', rediriger vers images/produits pour Vercel
+        // Si l'image commence par 'storage/', c'est un chemin de storage Laravel
         if (str_starts_with($this->image, 'storage/')) {
-            $filename = basename($this->image);
-            return asset('images/produits/' . $filename);
+            return asset($this->image);
         }
         
         // Si l'image est un chemin relatif du storage (ex: produits/image.jpg)
+        // C'est le format utilisé par Storage::disk('public')->store()
         if (str_starts_with($this->image, 'produits/')) {
-            $filename = basename($this->image);
-            return asset('images/produits/' . $filename);
+            return asset('storage/' . $this->image);
         }
         
         // Si l'image commence par 'images/', c'est un chemin public direct
@@ -85,8 +82,8 @@ class Produit extends Model
             return asset($this->image);
         }
         
-        // Par défaut, considérer que c'est un nom de fichier dans images/produits/
-        return asset('images/produits/' . basename($this->image));
+        // Par défaut, considérer que c'est un nom de fichier dans storage/produits/
+        return asset('storage/produits/' . $this->image);
     }
 
     /**

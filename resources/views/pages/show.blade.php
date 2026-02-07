@@ -68,6 +68,7 @@
 
                 <p class="product-description">{{ $product->description }}</p>
 
+                @if(!empty($product->features) && is_array($product->features))
                 <div class="product-features">
                     <h3>Caractéristiques</h3>
                     <ul>
@@ -76,6 +77,7 @@
                         @endforeach
                     </ul>
                 </div>
+                @endif
 
                 <div class="product-options">
                     <!-- Size Selection -->
@@ -106,10 +108,13 @@
                 </div>
 
                 <div class="product-actions-detail">
-                    <button class="btn btn-primary btn-lg">
-                        <i class="fas fa-shopping-bag"></i> Ajouter au panier
-                    </button>
-                    <button class="btn btn-outline btn-lg wishlist-btn">
+                    <form action="{{ route('cart.add', $product->id) }}" method="POST" style="display: inline-block; width: 100%;">
+                        @csrf
+                        <button type="submit" class="btn btn-primary btn-lg" style="width: calc(100% - 70px); margin-right: 10px;">
+                            <i class="fas fa-shopping-bag"></i> Ajouter au panier
+                        </button>
+                    </form>
+                    <button class="btn btn-outline btn-lg wishlist-btn" style="width: 60px;">
                         <i class="far fa-heart"></i>
                     </button>
                 </div>
@@ -153,8 +158,11 @@
                     <span class="product-badge badge-sale">Promo</span>
                     @endif
                     <div class="product-actions">
-                        <button class="action-btn" title="Aperçu"><i class="fas fa-eye"></i></button>
-                        <button class="action-btn" title="Ajouter au panier"><i class="fas fa-shopping-bag"></i></button>
+                        <a href="{{ route('produits.show', $related->id) }}" class="action-btn" title="Voir détails"><i class="fas fa-eye"></i></a>
+                        <form action="{{ route('cart.add', $related->id) }}" method="POST" style="display: inline;">
+                            @csrf
+                            <button type="submit" class="action-btn" title="Ajouter au panier"><i class="fas fa-shopping-bag"></i></button>
+                        </form>
                         <button class="action-btn" title="Favoris"><i class="fas fa-heart"></i></button>
                     </div>
                 </div>

@@ -4,6 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <title>@yield('title', 'ClothesZC - Boutique de Mode')</title>
 
     <!-- Google Fonts -->
@@ -684,7 +685,20 @@
 
                 <div class="header-actions">
                     <button class="header-btn"><i class="fas fa-search"></i></button>
-                    <button class="header-btn"><i class="fas fa-shopping-bag"></i></button>
+                    
+                    <!-- Panier -->
+                    <a href="{{ route('cart.index') }}" class="header-btn" style="position: relative;" title="Panier">
+                        <i class="fas fa-shopping-cart"></i>
+                        @php
+                            $cart = Session::get('cart', []);
+                            $cartCount = !empty($cart) ? array_sum(array_column($cart, 'quantity')) : 0;
+                        @endphp
+                        @if($cartCount > 0)
+                            <span class="cart-count-badge" style="position: absolute; top: -5px; right: -5px; background: var(--accent); color: white; border-radius: 50%; width: 20px; height: 20px; font-size: 11px; display: flex; align-items: center; justify-content: center; font-weight: bold;">
+                                {{ $cartCount }}
+                            </span>
+                        @endif
+                    </a>
                     
                     @guest
                         <a href="{{ route('login') }}" class="header-btn" title="Connexion">
@@ -696,23 +710,27 @@
                     @else
                         <div style="position: relative; display: inline-block;">
                             <button class="header-btn" id="userMenuBtn" title="{{ Auth::user()->name }}">
-                                <i class="fas fa-user"></i>
+                                @if(Auth::user()->role === 'admin')
+                                    <i class="fas fa-shield-alt" style="color: #667eea;"></i>
+                                @else
+                                    <i class="fas fa-user"></i>
+                                @endif
                             </button>
                             <div id="userDropdown" style="display: none; position: absolute; right: 0; top: 100%; margin-top: 10px; background: white; border-radius: 10px; box-shadow: 0 5px 20px rgba(0,0,0,0.1); min-width: 200px; z-index: 1000;">
                                 <div style="padding: 15px; border-bottom: 1px solid #eee;">
                                     <strong>{{ Auth::user()->name }}</strong>
                                     <br>
-                                    <small style="color: #999;">{{ Auth::user()->role }}</small>
+                                    <small style="color: #999;">{{ ucfirst(Auth::user()->role) }}</small>
                                 </div>
                                 <a href="{{ route('profile.show') }}" 
-                                   style="display: block; padding: 12px 15px; color: #333; text-decoration: none; transition: all 0.3s;"
+                                   style="display: block; padding: 12px 15px; color: #333; transition: all 0.3s;"
                                    onmouseover="this.style.background='#f8f9fa'"
                                    onmouseout="this.style.background='transparent'">
                                     <i class="fas fa-user-edit"></i> Mon Profil
                                 </a>
                                 <a href="{{ route('logout') }}" 
                                    onclick="event.preventDefault(); document.getElementById('logout-form').submit();"
-                                   style="display: block; padding: 12px 15px; color: #e94560; text-decoration: none; transition: all 0.3s;"
+                                   style="display: block; padding: 12px 15px; color: #e94560; transition: all 0.3s;"
                                    onmouseover="this.style.background='#f8f9fa'"
                                    onmouseout="this.style.background='transparent'">
                                     <i class="fas fa-sign-out-alt"></i> Déconnexion
@@ -736,6 +754,25 @@
 
     <!-- Main Content -->
     <main>
+        <!-- Messages Flash -->
+        @if(session('success'))
+            <div class="container mt-3">
+                <div class="alert alert-success alert-dismissible fade show" role="alert">
+                    <i class="fas fa-check-circle"></i> {{ session('success') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="container mt-3">
+                <div class="alert alert-danger alert-dismissible fade show" role="alert">
+                    <i class="fas fa-exclamation-circle"></i> {{ session('error') }}
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </div>
+        @endif
+
         @yield('content')
     </main>
 
@@ -821,6 +858,17 @@
                 e.stopPropagation();
             });
         }
+
+        // Auto-hide success messages
+        window.addEventListener('DOMContentLoaded', function() {
+            const alerts = document.querySelectorAll('.alert-dismissible');
+            alerts.forEach(function(alert) {
+                setTimeout(function() {
+                    const bsAlert = new bootstrap.Alert(alert);
+                    bsAlert.close();
+                }, 5000); // 5 seconds
+            });
+        });
     </script>
 
     <!-- Bootstrap JS Bundle (includes Popper) -->

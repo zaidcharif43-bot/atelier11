@@ -13,8 +13,8 @@ class User extends Authenticatable
     use HasFactory, Notifiable;
 
     // Déclaration des rôles
-    const USER_ROLE = 'USER';
-    const ADMIN_ROLE = 'ADMIN';
+    const USER_ROLE = 'user';
+    const ADMIN_ROLE = 'admin';
 
     /**
      * The attributes that are mass assignable.
