@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Pagination\Paginator;
+use Illuminate\Support\Facades\URL;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -22,5 +23,10 @@ class AppServiceProvider extends ServiceProvider
     {
         // Utiliser Bootstrap pour les liens de pagination
         Paginator::useBootstrapFive();
+        
+        // Forcer HTTPS en production (Vercel)
+        if (config('app.env') === 'production') {
+            URL::forceScheme('https');
+        }
     }
 }
