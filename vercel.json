@@ -22,6 +22,10 @@
             "dest": "public/build/$1"
         },
         {
+            "src": "/(.*\\.(jpeg|jpg|png|gif|svg|webp|ico))$",
+            "dest": "public/$1"
+        },
+        {
             "src": "/(.*)",
             "dest": "api/lambda.php"
         }
